@@ -1,4 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Calcpucp
+
+Una aplicación web moderna construida con Next.js 15, React 19, TypeScript y Tailwind CSS.
+
+## Estructura del Proyecto
+
+```
+calcpucp/
+├── src/
+│   ├── app/                    # App Router (Next.js 13+)
+│   │   ├── layout.tsx         # Layout principal
+│   │   ├── page.tsx           # Página principal
+│   │   ├── manifest.ts        # Web app manifest
+│   │   └── favicon.ico        # Favicon
+│   ├── components/            # Componentes reutilizables
+│   │   ├── ui/               # Componentes de UI básicos
+│   │   ├── forms/            # Componentes de formularios
+│   │   └── layout/           # Componentes de layout
+│   ├── lib/                  # Utilidades y configuraciones
+│   │   ├── utils.ts          # Funciones utilitarias
+│   │   ├── constants.ts      # Constantes de la aplicación
+│   │   └── types.ts          # Definiciones de tipos TypeScript
+│   ├── services/             # Servicios y APIs
+│   │   ├── api.ts            # Cliente HTTP
+│   │   └── auth.ts           # Servicios de autenticación
+│   ├── hooks/                # Custom React hooks
+│   ├── stores/               # Estado global (Zustand)
+│   └── styles/               # Estilos globales
+│       └── globals.css       # Estilos CSS globales
+├── public/                   # Archivos estáticos
+│   ├── images/              # Imágenes
+│   ├── icons/               # Iconos
+│   └── fonts/               # Fuentes
+├── docs/                    # Documentación
+└── config files...          # Archivos de configuración
+```
+
+## Tecnologías
+
+- **Framework**: Next.js 15.3.3
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **State Management**: Zustand
+- **Language**: TypeScript
+- **Package Manager**: npm
+
+## Scripts Disponibles
+
+- `npm run dev` - Inicia el servidor de desarrollo con Turbopack
+- `npm run build` - Construye la aplicación para producción
+- `npm run start` - Inicia el servidor de producción
+- `npm run lint` - Ejecuta el linter
+
+## Características
+
+- ✅ App Router de Next.js 13+
+- ✅ TypeScript para type safety
+- ✅ Tailwind CSS para estilos
+- ✅ Zustand para manejo de estado
+- ✅ Estructura modular y escalable
+- ✅ Configuración optimizada para desarrollo
+
+## Desarrollo
+
+1. Clona el repositorio
+2. Instala las dependencias: `npm install`
+3. Inicia el servidor de desarrollo: `npm run dev`
+4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador
 
 ## Getting Started
 

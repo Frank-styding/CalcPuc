@@ -1,0 +1,20 @@
+{
+  "name": "CalcPUCP",
+  "short_name": "CalcPUCP",
+  "description": "Calculadora de la Pontificia Universidad Católica del Perú",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
