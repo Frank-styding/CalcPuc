@@ -13,6 +13,8 @@ export const CourseSelectorList = ({
   const { courses: apiCourses, loading } = useApiCourses();
   const [filteredCourses, setFilteredCourses] = useState<string[]>([]);
 
+  console.log(apiCourses);
+
   useEffect(() => {
     if (loading) return;
 

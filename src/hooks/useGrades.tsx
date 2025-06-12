@@ -33,16 +33,7 @@ interface useGrades {
 export const useGrades = create<useGrades>()(
   persist(
     (set, get) => ({
-      courses: [
-        {
-          name: "AMGA",
-          grade: 0,
-          exams: [
-            { name: "PC", grade: 0, data: [0, 0] },
-            { name: "Exam", grade: 0, data: [0, 0] },
-          ],
-        },
-      ] as ICourseGrade[],
+      courses: [] as ICourseGrade[],
       getCourseGrade: (name: string) => {
         const course = get().courses.find((item) => item.name == name);
         if (!course) return 0;
