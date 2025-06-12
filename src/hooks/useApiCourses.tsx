@@ -21,49 +21,84 @@ export const useApiCourses = (): UseApiCoursesReturn => {
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   const fetchCourses = async () => {
     setLoading(true);
     setError(null);
 
-    // Cancelar petición anterior si existe
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
+    // Limpiar cualquier script anterior
+    if (scriptRef.current && scriptRef.current.parentNode) {
+      scriptRef.current.parentNode.removeChild(scriptRef.current);
+      scriptRef.current = null;
     }
 
-    // Crear nuevo AbortController para esta petición
-    abortControllerRef.current = new AbortController();
+    // Limpiar timeout anterior
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
     try {
-      const response = await fetch(apiConfig.baseUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        signal: abortControllerRef.current.signal,
-        mode: "cors", // Habilitar CORS explícitamente
-        credentials: "omit", // No enviar cookies para evitar problemas de CORS
+      // Crear un callback único para esta petición
+      const callbackName = `jsonpCallback_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`;
+
+      // Crear una promesa para manejar la respuesta JSONP
+      const jsonpPromise = new Promise<ICourse[]>((resolve, reject) => {
+        // Configurar el callback global
+        window[callbackName] = (data: ICourse[]) => {
+          console.log("Cursos cargados via JSONP:", data);
+          resolve(data);
+          // Limpiar el callback
+          delete window[callbackName];
+        };
+
+        // Configurar timeout
+        timeoutRef.current = setTimeout(() => {
+          delete window[callbackName];
+          reject(
+            new Error(
+              "Timeout: No se pudo cargar los datos en el tiempo esperado"
+            )
+          );
+        }, apiConfig.timeout);
+
+        // Crear el script tag
+        const script = document.createElement("script");
+        const url = `${apiConfig.baseUrl}?callback=${callbackName}`;
+        console.log("Intentando cargar desde:", url);
+        script.src = url;
+
+        script.onerror = () => {
+          delete window[callbackName];
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+          reject(
+            new Error("Error de red: No se pudo conectar con el servidor")
+          );
+        };
+
+        script.onload = () => {
+          // El script se cargó, pero el callback se ejecutará cuando se procese
+          console.log("Script JSONP cargado exitosamente");
+        };
+
+        scriptRef.current = script;
+        document.head.appendChild(script);
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data: ICourse[] = await response.json();
-      console.log("Cursos cargados:", data);
+      const data = await jsonpPromise;
       setCourses(data);
     } catch (err) {
-      if (err instanceof Error && err.name === "AbortError") {
-        // La petición fue cancelada, no mostrar error
-        return;
-      }
-
-      console.warn("Error fetching courses from API:", err);
+      console.warn("Error fetching courses from API using JSONP:", err);
       setCourses([]);
       setError(
-        "No se pudo cargar los cursos desde el servidor. Verifique la configuración de la API."
+        err instanceof Error
+          ? err.message
+          : "Error desconocido al cargar los cursos"
       );
     } finally {
       setLoading(false);
@@ -75,8 +110,11 @@ export const useApiCourses = (): UseApiCoursesReturn => {
 
     // Cleanup function
     return () => {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
     };
   }, [apiConfig.baseUrl, apiConfig.timeout]);
