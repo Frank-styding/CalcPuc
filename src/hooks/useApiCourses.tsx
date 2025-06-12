@@ -100,8 +100,6 @@ export const useApiCourses = (): UseApiCoursesReturn => {
         headers: {
           "Content-Type": "application/json",
         },
-        mode: "cors",
-        credentials: "include",
         signal: controller.signal,
       });
 
