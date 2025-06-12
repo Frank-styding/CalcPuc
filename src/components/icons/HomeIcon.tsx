@@ -1,6 +1,6 @@
 export const HomeIcon = ({
   size = 24,
-  color = "#FED32C",
+  color = "var(--color-primary)",
 }: {
   size?: number;
   color?: string;

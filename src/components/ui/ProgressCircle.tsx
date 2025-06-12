@@ -29,44 +29,21 @@ const Circle = ({
   );
 };
 
-const Value = ({
-  percentage,
-  colour,
-}: {
-  percentage: number;
-  colour: string;
-}) => {
-  return (
-    <text
-      x="50%"
-      y="50%"
-      dominantBaseline="central"
-      textAnchor="middle"
-      stroke={colour}
-      strokeWidth="0.5px"
-      fontSize={"1em"}
-      fill={colour}
-    >
-      {percentage.toFixed(0)}%
-    </text>
-  );
-};
-
 export const ProgressCircle = ({
   percentage,
-  colour,
-  textColour,
+  fill: colour,
+  background,
 }: {
   percentage: number;
-  colour: string;
-  textColour: string;
+  fill: string;
+  background: string;
 }) => {
   const pct = cleanPercentage(percentage);
   return (
-    <div className="grid place-content-center ">
+    <div className="grid place-content-center select-none">
       <svg width={70} height={70}>
+        <Circle colour={background} percentage={100} />
         <Circle colour={colour} percentage={pct} />
-        <Value percentage={pct} colour={textColour} />
       </svg>
     </div>
   );

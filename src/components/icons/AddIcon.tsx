@@ -1,6 +1,6 @@
 export const AddIcon = ({
-  size = 22,
-  color = "#FED32C",
+  size = 24,
+  color = "var(--color-primary)",
 }: {
   size?: number;
   color?: string;

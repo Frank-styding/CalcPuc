@@ -1,14 +1,14 @@
 export const EditIcon = ({
-  size,
-  color = "#FED32C",
+  size = 24,
+  color = "var(--color-primary)",
 }: {
   size?: number;
   color?: string;
 }) => {
   return (
     <svg
-      width={size || "28"}
-      height={size || "28"}
+      width={size || "25"}
+      height={size || "25"}
       viewBox="0 0 28 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

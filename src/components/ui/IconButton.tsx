@@ -10,7 +10,7 @@ export const IconButton = ({
   icon: React.ReactNode;
   onClick?: () => void;
 }) => {
-  const className = `cursor-pointer grid place-content-center p-4 rounded-full bg-[var(--color-dark1)] border border-1 border-[var(--color-dark2)]`;
+  const className = `cursor-pointer grid place-content-center p-4 rounded-full bg-[var(--color-dark1)] border-1 border-[var(--color-dark2)]`;
   return (
     <div className={className} onClick={onClick}>
       {icon}

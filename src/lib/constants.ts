@@ -8,6 +8,12 @@ export const APP_CONFIG = {
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
 };
 
+export const API_CONFIG = {
+  baseUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api",
+
+  timeout: 10000, // 10 segundos
+};
+
 export const PAGINATION = {
   defaultPage: 1,
   defaultLimit: 10,
